@@ -1,15 +1,15 @@
 import { Document } from "./Document";
 import { Context } from "../support";
-export class LazyDocument<Dto = any, Data = Dto> extends Document<Dto, Data> {
+export class LazyDocument<DtoResponse = any, Data = DtoResponse, DtoRequest = Data> extends Document<DtoResponse, Data, DtoRequest> {
     private urlMethod: (context: Context) => string;
-    private extractorMethod: (dto: Dto) => Data;
-    private serializerMethod: (data: Data) => Dto;
-    constructor(init: {
+    private extractorMethod: (dto: DtoResponse) => Data;
+    private serializerMethod: (data: Data) => DtoRequest;
+    constructor(data: Data, init: {
         url: (context: Context) => string;
-        extractor: (dto: Dto) => Data;
-        serializer: (data: Data) => Dto;
+        extractor: (dto: DtoResponse) => Data;
+        serializer: (data: Data) => DtoRequest;
     }) {
-        super();
+        super(data);
         this.urlMethod = init.url;
         this.extractorMethod = init.extractor;
         this.serializerMethod = init.serializer;
@@ -17,10 +17,10 @@ export class LazyDocument<Dto = any, Data = Dto> extends Document<Dto, Data> {
     public url(context: Context): string {
         return this.urlMethod(context);
     }
-    public extractor(dto: Dto): Data {
+    public extractor(dto: DtoResponse): Data {
         return this.extractorMethod(dto);
     }
-    public serializer(data: Data): Dto {
+    public serializer(data: Data): DtoRequest {
         return this.serializerMethod(data);
     }
 }

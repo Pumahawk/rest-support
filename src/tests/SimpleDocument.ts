@@ -1,6 +1,6 @@
 import { LazyDocument } from "../documents/LazyDocument";
 
-var test = new LazyDocument<any, any>({
+var test = new LazyDocument<any, any>(null, {
     url: () => 'http://localhost:3000/test',
     extractor: (dto) => dto,
     serializer: (data) => data,

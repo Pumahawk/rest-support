@@ -1,15 +1,18 @@
 import { Context, ActionReport, RestResponse } from "../support";
 const axios = require('axios');
 
-export abstract class Document<Dto = any, Data = Dto> {
+export abstract class Document<DtoResponse = any, Data = DtoResponse, DtoRequest = Data> {
 
-    public data: Data | undefined;
+    public data: Data;
 
+    constructor(data: Data) {
+        this.data = data;
+    }
     public abstract url(context: Context): string;
-    public abstract extractor(dto: Dto): Data;
-    public abstract serializer(data: Data): Dto;
+    public abstract extractor(dto: DtoResponse): Data;
+    public abstract serializer(data: Data): DtoRequest;
 
-    public async delete(): Promise<RestResponse<Document<Dto, Data>>> {
+    public async delete(): Promise<RestResponse<Document<DtoResponse, Data>>> {
         const context = new Context;
         context.method = "DELETE";
         const url = this.url(context);
@@ -20,7 +23,7 @@ export abstract class Document<Dto = any, Data = Dto> {
         });
     }
 
-    public async commit(): Promise<RestResponse<Document<Dto, Data>>> {
+    public async commit(): Promise<RestResponse<Document<DtoResponse, Data>>> {
         const context = new Context;
         context.method = "PUT";
         const url = this.url(context);
@@ -31,7 +34,7 @@ export abstract class Document<Dto = any, Data = Dto> {
         });
     }
 
-    public async update(): Promise<RestResponse<Document<Dto, Data>>> {
+    public async update(): Promise<RestResponse<Document<DtoResponse, Data>>> {
         const context = new Context;
         context.method = "GET";
         const url = this.url(context);
