@@ -14,13 +14,9 @@ export abstract class Document<Dto = any, Data = Dto> {
         context.method = "DELETE";
         const url = this.url(context);
         const document = this;
-        return new Promise<RestResponse<Document<Dto, Data>>>(resolve => {
-            axios.delete(url).then((resp: any) => {
-                document.data = this.extractor(resp.data);
-                resolve(
-                    new RestResponse(document)
-                );
-            });
+        return axios.delete(url).then((resp: any) => {
+            document.data = this.extractor(resp.data);
+            return new RestResponse(document);
         });
     }
 
@@ -29,13 +25,9 @@ export abstract class Document<Dto = any, Data = Dto> {
         context.method = "PUT";
         const url = this.url(context);
         const document = this;
-        return new Promise<RestResponse<Document<Dto, Data>>>(resolve => {
-            axios.put(url).then((resp: any) => {
-                document.data = this.extractor(resp.data);
-                resolve(
-                    new RestResponse(document)
-                );
-            });
+        return axios.put(url).then((resp: any) => {
+            document.data = this.extractor(resp.data);
+            return new RestResponse(document)
         });
     }
 
@@ -44,13 +36,9 @@ export abstract class Document<Dto = any, Data = Dto> {
         context.method = "GET";
         const url = this.url(context);
         const document = this;
-        return new Promise<RestResponse<Document<Dto, Data>>>(resolve => {
-            axios.get(url).then((resp: any) => {
-                document.data = this.extractor(resp.data);
-                resolve(
-                    new RestResponse(document)
-                );
-            });
+        return axios.get(url).then((resp: any) => {
+            document.data = this.extractor(resp.data);
+            return new RestResponse(document);
         });
     }
 }
