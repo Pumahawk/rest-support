@@ -1,7 +1,7 @@
 import { Context, ActionReport, RestResponse } from "../support";
 const axios = require('axios');
 
-export abstract class Document<DtoResponse = any, Data = DtoResponse, DtoRequest = Data> {
+export abstract class Document<DtoResponse = any, Data = DtoResponse, DtoRequest = DtoResponse> {
 
     public data: Data;
 
