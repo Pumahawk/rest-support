@@ -20,3 +20,10 @@ export class RestResponse<T> {
     }
 
 }
+
+export interface IRequestDispenser<T> {
+    get(url: string): Promise<T>;
+    put(url: string, obj: any): Promise<T>;
+    post(url: string, obj: any): Promise<T>;
+    delete(url: string): Promise<T>;
+}
